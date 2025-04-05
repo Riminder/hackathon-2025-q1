@@ -35,13 +35,15 @@ export default function Home() {
       <main className="w-full max-w-7xl mx-auto px-4 space-y-12 pb-20 flex flex-col items-center">
         <DropzoneSection 
           onParseSuccess={handleParseSuccess} 
-          isLoading={parsingLoading || matchingLoading}
+          isLoading={parsingLoading}
           setIsLoading={setParsingLoading}
+          setParsedProfile={setParsedProfile}
+          parsedProfile={parsedProfile}
         />
         <MatchingResults 
           parsedProfile={parsedProfile} 
           visible={parsingLoading || !!parsedProfile } 
-          isLoading={parsingLoading || matchingLoading}
+          isLoading={matchingLoading}
           setIsLoading={setMatchingLoading}
         />
       </main>

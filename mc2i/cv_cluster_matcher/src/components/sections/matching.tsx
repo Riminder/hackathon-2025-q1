@@ -24,7 +24,11 @@ export default function MatchingResults({
   const [matchingResults, setMatchingResults] = useState<any>(null);
 
   useEffect(() => {
-    if (!visible || !parsedProfile) return;
+    if (!visible || !parsedProfile) {
+      setMatchingResults(null);
+      setIsLoading(false);
+      return;
+    };
     
     // Reset state when a new profile is received
     setMatchingResults(null);
@@ -59,9 +63,51 @@ export default function MatchingResults({
   return (
     <>  
       {isLoading && !matchingResults ? (
-        <div className="flex flex-col items-center py-8">
-          <LoaderCircle className="h-10 w-10 text-blue-500 animate-spin mb-4" />
-          <h3 className='text-md font-medium text-slate-500'>Processing...</h3>
+        <div className="space-y-6">
+          <div className='flex flex-col items-center justify-center text-center py-4 gap-2'>
+            <div className="h-6 w-24 rounded-full bg-slate-200 animate-pulse"></div>
+            <div className="h-8 w-48 rounded-md bg-slate-200 animate-pulse mt-2 mb-1"></div>
+            <div className="h-4 w-80 rounded-md bg-slate-200 animate-pulse"></div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="flex flex-col bg-white rounded-xl shadow-xs">
+                <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="h-8 w-8 rounded-full bg-slate-200 animate-pulse"></div>
+                    <div className="h-6 w-32 rounded-md bg-slate-200 animate-pulse"></div>
+                  </div>
+                  <div className="h-6 w-16 rounded-md bg-slate-200 animate-pulse"></div>
+                </div>
+                <div className="p-4 space-y-4">
+                  {[...Array(3)].map((_, j) => (
+                    <div key={j} className="bg-white rounded-xl border p-4 border-slate-100 shadow-xl w-full">
+                      <div className="flex justify-between items-center mb-3">
+                        <div className="flex items-center gap-2">
+                          <div className="h-6 w-8 rounded-md bg-slate-200 animate-pulse"></div>
+                          <div className="h-6 w-40 rounded-md bg-slate-200 animate-pulse"></div>
+                        </div>
+                        <div className="h-6 w-32 rounded-full bg-slate-200 animate-pulse"></div>
+                      </div>
+                      <div className="mb-3">
+                        <div className="flex justify-between items-center mb-1">
+                          <div className="h-4 w-36 rounded-md bg-slate-200 animate-pulse"></div>
+                          <div className="h-4 w-12 rounded-md bg-slate-200 animate-pulse"></div>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2 mt-2"></div>
+                      </div>
+                      <div className="h-4 w-48 rounded-md bg-slate-200 animate-pulse mb-3"></div>
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {[...Array(3)].map((_, k) => (
+                          <div key={k} className="h-6 w-20 rounded-md bg-slate-200 animate-pulse"></div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       ) : matchingResults ? (
         <div className="space-y-6">
@@ -154,7 +200,7 @@ export default function MatchingResults({
                             <Link href={publicProfileUrl} target='_blank' className="block relative group">
                               <motion.div  
                                 key={index} 
-                                className="bg-white rounded-xl border p-4 !border-slate-50 shadow-xl h-[220px] flex flex-col"
+                                className="bg-white rounded-xl border p-4 !border-slate-100 shadow-xl flex flex-col"
                                 whileHover={{ 
                                   y: -8,
                                   transition: { duration: 0.6 }
